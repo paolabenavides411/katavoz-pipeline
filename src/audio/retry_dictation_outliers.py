@@ -30,15 +30,15 @@ OUTLIER_THRESHOLD = 0.15
 parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
 parser.add_argument("--transcript", type=str, required=True)
 parser.add_argument("--key", type=str, required=True)
-parser.add_argument("--swap-voices", action="store_true",
-                     help="Must match whatever --swap-voices setting generated the existing files being "
-                          "retried, so re-rolled attempts use the same voice/rate pairing as the originals.")
+parser.add_argument("--attorney-voice", type=str, default="achird", choices=sorted(gen.VOICE_PROFILES),
+                     help="Must match whatever --attorney-voice generated the existing files being retried, "
+                          "so re-rolled attempts use the same voice/rate pairing as the originals.")
+parser.add_argument("--witness-voice", type=str, default="achernar", choices=sorted(gen.VOICE_PROFILES),
+                     help="Must match whatever --witness-voice generated the existing files being retried.")
 parser.add_argument("wpms", nargs="*", type=int, help="Speeds to check (default: all TARGET_WPMS)")
 args = parser.parse_args()
 
-if args.swap_voices:
-    ttsgen.VOICES["attorney"], ttsgen.VOICES["witness"] = ttsgen.VOICES["witness"], ttsgen.VOICES["attorney"]
-    gen.NATIVE_WPM["attorney"], gen.NATIVE_WPM["witness"] = gen.NATIVE_WPM["witness"], gen.NATIVE_WPM["attorney"]
+gen.set_voice_pair(args.attorney_voice, args.witness_voice)
 
 entries = sorted(json.load(open(args.transcript)), key=lambda e: e["line_num"])
 api_key = ttsgen.get_api_key()

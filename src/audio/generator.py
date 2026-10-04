@@ -198,36 +198,49 @@ NATIVE_ENOUGH_WPM = 140  # empirically-confirmed boundary, not derived from a
 # formula: at/above this, hold rate at 1.0 instead of tapering -- see
 # fixed_rate_for's docstring.
 
-# Two new voice identities calibrated 2026-10-04: Aoede (female,
-# en-US-Chirp3-HD-Aoede) and Charon (male, en-US-Chirp3-HD-Charon), picked
-# from Google's live voices:list API for a future single-narrator role
-# (Literary/Jury-Charge-category dictations -- a real content gap found in
-# NCRA/NVRA standards research; KATAVOZ currently only has two-voice Q&A
-# content). NOT YET WIRED into VOICES/NATIVE_WPM/fixed_rate_for above,
-# which stay role-keyed ("attorney"/"witness") for the existing swappable
-# two-voice Q&A pipeline -- how these two new voices should actually plug
-# into the codebase (single-narrator role vs. something else) is still an
-# open decision, deliberately not made yet. This dict exists so the
-# calibration work itself (all real, by-ear user-confirmed, same rigor as
-# Achird/Achernar) survives regardless of which way that decision goes.
+# The single source of truth for every voice this project knows how to pace
+# -- keyed by voice name, NOT by courtroom role. Reflects the user's
+# explicit design decision (2026-10-04): voices are a growing, freely
+# mixable pool, not two fixed pairs -- a dictation might use Achird+Aoede,
+# Achird+Charon, Achernar+Charon, Aoede+Charon, or any future voice added
+# here, not just the original Achird/Achernar pairing or a straight swap of
+# it. Which two voices play attorney/witness for a given dictation is a
+# PER-DICTATION choice (see set_voice_pair below), never hardcoded here.
 #
-# Native pace at speakingRate=1.0, measured from real production-style
-# lines (same methodology as Achird/Achernar): Aoede ~175.4 wpm, Charon
-# ~172.1 wpm.
+# Achird/Achernar's tables are the exact values fixed_rate_for's formula
+# (native_wpm/floor/NATIVE_ENOUGH_WPM) already produced -- baked in
+# explicitly rather than left formula-only so every voice is looked up the
+# same uniform way. (Regression-checked 2026-10-04: rate_for_voice's output
+# for both exactly matches the old role-keyed fixed_rate_for's output at
+# every one of the 9 locked speeds.)
 #
-# Confirmed by ear (user, 2026-10-04) per speed -- NOT all derived from the
-# same formula as Achird/Achernar, because Charon's own voice character
-# doesn't follow it: a literal wpm/native ratio (or this project's usual
-# "flat 1.0 at/above NATIVE_ENOUGH_WPM" rule) made Charon sound
-# meaningfully faster/less settled than Aoede at the same wpm label despite
-# their native paces being close (175.4 vs 172.1) -- re-confirms the
-# standing lesson that per-voice by-ear confirmation is required even when
-# the math looks similar to an already-approved voice, don't skip it.
-# Charon's floor needed to drop from the usual 0.75 to 0.70 (not just at
-# 140wpm but uniformly across the whole 60-120 floor-pinned bucket, since
-# fixed_rate_for pins ONE floor value across that whole range) before his
-# pacing matched Aoede's/Achird's cadence at the same speeds.
+# Aoede and Charon added 2026-10-04, picked from Google's live
+# voices:list API, native pace measured the same way as Achird/Achernar
+# (~175.4 wpm / ~172.1 wpm at rate=1.0). Aoede follows the standard formula
+# exactly, no deviation. Charon's own voice character does NOT follow it:
+# a literal wpm/native ratio (or the usual "flat 1.0 at/above
+# NATIVE_ENOUGH_WPM" rule) made him sound meaningfully faster/less settled
+# than the other three voices at the same wpm label, despite a native pace
+# close to Aoede's -- re-confirms the standing lesson that per-voice
+# by-ear confirmation can't be skipped just because native-wpm numbers
+# look similar to an already-approved voice. His floor is 0.70 (not the
+# usual 0.75) across the whole 60-120 bucket, and his 140wpm rate is an
+# explicit 0.906 override rather than the bucket's usual flat 1.0.
 VOICE_PROFILES = {
+    "achird": {
+        "voice_id": "en-US-Chirp3-HD-Achird",
+        "native_wpm": 173.4,
+        "rate_floor": 0.75,
+        "rate_by_wpm": {60: 0.75, 80: 0.75, 100: 0.75, 120: 0.75,
+                        140: 1.000, 160: 1.000, 180: 1.038, 200: 1.150, 225: 1.150},
+    },
+    "achernar": {
+        "voice_id": "en-US-Chirp3-HD-Achernar",
+        "native_wpm": 189.9,
+        "rate_floor": 0.75,
+        "rate_by_wpm": {60: 0.75, 80: 0.75, 100: 0.75, 120: 0.75,
+                        140: 1.000, 160: 1.000, 180: 1.000, 200: 1.053, 225: 1.150},
+    },
     "aoede": {
         "voice_id": "en-US-Chirp3-HD-Aoede",
         "native_wpm": 175.4,
@@ -243,13 +256,56 @@ VOICE_PROFILES = {
                         140: 0.906, 160: 1.000, 180: 1.046, 200: 1.150, 225: 1.150},
     },
 }
-# 160wpm and 200wpm for both voices, and Aoede's 140/160/180/225, were sent
+# 160wpm and 200wpm for Aoede/Charon, and Aoede's 140/160/180/225, were sent
 # as part of a larger batch and never individually re-flagged -- treated as
 # confirmed by the absence of a complaint, same as how approval worked for
 # the rest of this file's locked speeds, but worth a quick explicit re-listen
 # before treating them as equally hardened as the ones that got dedicated,
 # multi-round by-ear iteration (140/180/225 via explicit "I APPROVE", and all
 # of 60/80/100/120 for both voices via multiple rounds of specific feedback).
+
+
+def rate_for_voice(voice_key: str, wpm: int) -> float:
+    """The ONE fixed speakingRate for this (voice, wpm) pair -- the
+    voice-keyed replacement for fixed_rate_for's old role-keyed lookup,
+    used for every voice in VOICE_PROFILES uniformly (Achird/Achernar
+    included, not just the two newer voices). Pulls straight from each
+    voice's own confirmed rate_by_wpm table rather than recomputing a
+    formula live, so there's exactly one place (the table itself) that
+    needs updating if a voice's calibration ever changes, and no risk of a
+    formula edit silently drifting an already-locked voice's values."""
+    return VOICE_PROFILES[voice_key]["rate_by_wpm"][wpm]
+
+
+# Which voice key plays which courtroom role for the CURRENT generation run
+# -- the generalized, N-voice-pool replacement for the old binary
+# --swap-voices flag (which only ever swapped between two hardcoded
+# voices). Defaults preserve this project's original pairing exactly.
+# Mutate via set_voice_pair, not by editing this dict directly, so
+# ttsgen.VOICES and NATIVE_WPM (kept for any code that still reads them
+# directly) stay in sync with it.
+ACTIVE_VOICE_KEY = {"attorney": "achird", "witness": "achernar"}
+
+
+def set_voice_pair(attorney_voice: str = "achird", witness_voice: str = "achernar") -> None:
+    """Assign which two voices (any keys from VOICE_PROFILES) play attorney
+    and witness for this generation run -- e.g. set_voice_pair("achird",
+    "aoede") or set_voice_pair("achernar", "charon"). Replaces the old
+    --swap-voices flag's fixed binary swap now that the voice pool has
+    grown past two names and dictations should be able to mix-and-match
+    freely (e.g. Achird+Aoede for one dictation, Achird+Charon for
+    another, Achernar+Charon for a third) rather than only ever swapping
+    the original Achird/Achernar pair. Updates ttsgen.VOICES and
+    NATIVE_WPM too, so any older code path reading those directly (instead
+    of going through rate_for_voice/ACTIVE_VOICE_KEY) still sees the right
+    voice id and native-wpm for each role."""
+    for role, voice_key in (("attorney", attorney_voice), ("witness", witness_voice)):
+        if voice_key not in VOICE_PROFILES:
+            raise ValueError(f"Unknown voice key {voice_key!r} -- add it to VOICE_PROFILES first.")
+        ACTIVE_VOICE_KEY[role] = voice_key
+        ttsgen.VOICES[role] = VOICE_PROFILES[voice_key]["voice_id"]
+        NATIVE_WPM[role] = VOICE_PROFILES[voice_key]["native_wpm"]
+
 
 MIN_GAP = 0.15  # same floor used throughout tts_generate.py -- confirmed by
 # ear there as the point below which a gap reads as staccato/jittery rather
@@ -399,23 +455,24 @@ def fixed_rate_for(speaker: str, wpm: int) -> float:
     has always had, just amplified -- handled the same way, via
     synthesize_paused's per-line outlier retry, not by capping rate
     further. This branch never touches wpm<=225's rate, so the 9 already-
-    locked speeds are unaffected regardless of what this returns here."""
-    ratio = wpm / NATIVE_WPM[speaker]
-    if ratio >= 1.0:
-        if wpm <= 225:
-            return min(1.15, ratio)
-        return ratio
-    if wpm >= NATIVE_ENOUGH_WPM:
-        # Close enough to native pace that a continuous rate=1.0 reading
-        # already lands near target on its own -- confirmed by ear: 1.0
-        # sounded right at 140wpm (the user's own gold-standard example),
-        # while 120wpm at flat 1.0 still needed real chunking help and
-        # sounded noticeably worse than its later, tapered-rate version.
-        # No reason to taper rate down here just because wpm is
-        # technically sub-native; that would only trade an already-working
-        # sound for a needlessly slower one.
-        return 1.0
-    return max(ttsgen.NATURAL_RATE_FLOOR, ratio)
+    locked speeds are unaffected regardless of what this returns here.
+
+    For wpm<=225, this is now a thin wrapper around rate_for_voice
+    (resolving `speaker` to a voice key via ACTIVE_VOICE_KEY, settable with
+    set_voice_pair) -- kept for the handful of call sites that still pass a
+    role string instead of a voice key directly. Regression-checked
+    2026-10-04 against this function's own pre-refactor formula output at
+    every one of the 9 locked speeds for both original voices: identical.
+    Above 225wpm there's no VOICE_PROFILES table (only the 9 locked speeds
+    were ever calibrated that granularly) -- the uncapped ratio is always
+    what this branch returned in practice even before this refactor, since
+    every voice's native pace is well under 250, so ratio>=1.0 always held
+    for that range; made explicit here instead of falling through unused
+    NATIVE_ENOUGH_WPM/floor branches that could never actually be reached
+    once wpm<=225 is handled above."""
+    if wpm <= 225:
+        return rate_for_voice(ACTIVE_VOICE_KEY[speaker], wpm)
+    return wpm / NATIVE_WPM[speaker]
 
 
 def synthesize_at_fixed_rate(entry: dict, rate: float, voice_name: str, api_key: str, tmp_dir: Path) -> bytes:

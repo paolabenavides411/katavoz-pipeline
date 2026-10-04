@@ -11,7 +11,7 @@ default-voice dictations already have copies of there too.
 
 Usage:
   cd tts_project && source .env.local && cd ..
-  python3 src/audio/gen_intro_for.py --key greenmart_theft --swap-voices
+  python3 src/audio/gen_intro_for.py --key greenmart_theft --attorney-voice achernar --witness-voice achird
   python3 src/audio/gen_intro_for.py --key some_other_key
 """
 import argparse
@@ -22,8 +22,10 @@ SRC_DIR = Path(__file__).resolve().parent
 PROJECT_ROOT = SRC_DIR.parent.parent
 TTS_PROJECT_DIR = PROJECT_ROOT / "tts_project"
 sys.path.insert(0, str(TTS_PROJECT_DIR))
+sys.path.insert(0, str(SRC_DIR))
 
 from tts_generate import synthesize, get_api_key, VOICES, trim_silence  # noqa: E402
+import generator as gen  # noqa: E402
 
 LINES = {
     "attorney": "This is a two-voice testimony. I am the questioning attorney.",
@@ -34,12 +36,13 @@ LINES = {
 def main():
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--key", type=str, required=True)
-    parser.add_argument("--swap-voices", action="store_true")
+    parser.add_argument("--attorney-voice", type=str, default="achird", choices=sorted(gen.VOICE_PROFILES))
+    parser.add_argument("--witness-voice", type=str, default="achernar", choices=sorted(gen.VOICE_PROFILES))
     args = parser.parse_args()
 
-    if args.swap_voices:
-        VOICES["attorney"], VOICES["witness"] = VOICES["witness"], VOICES["attorney"]
-        print(f"Voices swapped: attorney={VOICES['attorney']} witness={VOICES['witness']}")
+    gen.set_voice_pair(args.attorney_voice, args.witness_voice)
+    print(f"Voices: attorney={args.attorney_voice} ({VOICES['attorney']})  "
+          f"witness={args.witness_voice} ({VOICES['witness']})")
 
     out_dir = PROJECT_ROOT / "dictation_player" / "audio" / args.key / "intro"
     out_dir.mkdir(parents=True, exist_ok=True)

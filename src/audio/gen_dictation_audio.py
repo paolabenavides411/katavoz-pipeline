@@ -96,19 +96,20 @@ def main():
     parser.add_argument("--transcript", type=str, required=True, help="Path to single-spaced transcript JSON")
     parser.add_argument("--key", type=str, required=True, help="Dictation key -- output goes to audio/<key>/")
     parser.add_argument("--wpm", type=str, default="all")
-    parser.add_argument("--swap-voices", action="store_true",
-                         help="Swap which physical voice plays attorney vs witness for this dictation only "
-                              "(e.g. Achernar as attorney, Achird as witness instead of the default). Swaps "
-                              "BOTH the voice id AND that voice's own calibrated native-wpm rate together, so "
-                              "pacing stays correctly calibrated to whichever real voice is actually speaking "
-                              "each role -- swapping only the voice id and leaving the other voice's rate "
-                              "table in place would mis-pace both roles.")
+    parser.add_argument("--attorney-voice", type=str, default="achird", choices=sorted(gen.VOICE_PROFILES),
+                         help="Which voice (any key in generator.py's VOICE_PROFILES) plays attorney for this "
+                              "dictation. Default: achird, this project's original pairing.")
+    parser.add_argument("--witness-voice", type=str, default="achernar", choices=sorted(gen.VOICE_PROFILES),
+                         help="Which voice plays witness for this dictation. Default: achernar. Voices are a "
+                              "freely mixable pool, not a fixed pair or a binary swap -- e.g. "
+                              "--attorney-voice achird --witness-voice aoede, or "
+                              "--attorney-voice achernar --witness-voice charon, are both valid, not just the "
+                              "original achird/achernar pairing or a straight swap of it.")
     args = parser.parse_args()
 
-    if args.swap_voices:
-        ttsgen.VOICES["attorney"], ttsgen.VOICES["witness"] = ttsgen.VOICES["witness"], ttsgen.VOICES["attorney"]
-        gen.NATIVE_WPM["attorney"], gen.NATIVE_WPM["witness"] = gen.NATIVE_WPM["witness"], gen.NATIVE_WPM["attorney"]
-        print(f"Voices swapped: attorney={ttsgen.VOICES['attorney']} witness={ttsgen.VOICES['witness']}\n")
+    gen.set_voice_pair(args.attorney_voice, args.witness_voice)
+    print(f"Voices: attorney={args.attorney_voice} ({ttsgen.VOICES['attorney']})  "
+          f"witness={args.witness_voice} ({ttsgen.VOICES['witness']})\n")
 
     wpms = gen.TARGET_WPMS if args.wpm == "all" else [int(x) for x in args.wpm.split(",")]
     entries = sorted(load_entries(args.transcript), key=lambda e: e["line_num"])
