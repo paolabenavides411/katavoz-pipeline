@@ -1,0 +1,352 @@
+[
+  {
+    "line_num": 1,
+    "speaker": "attorney",
+    "text": "Good morning. Would you please state your full name for the record?"
+  },
+  {
+    "line_num": 2,
+    "speaker": "witness",
+    "text": "Good morning. My name is Rebecca Anne Torres."
+  },
+  {
+    "line_num": 3,
+    "speaker": "attorney",
+    "text": "Ms. Torres, where are you currently employed?"
+  },
+  {
+    "line_num": 4,
+    "speaker": "witness",
+    "text": "I am employed at Meridian Freight, at their downtown distribution facility."
+  },
+  {
+    "line_num": 5,
+    "speaker": "attorney",
+    "text": "How long have you worked there?"
+  },
+  {
+    "line_num": 6,
+    "speaker": "witness",
+    "text": "I have worked there for six years, since March of 2020."
+  },
+  {
+    "line_num": 7,
+    "speaker": "attorney",
+    "text": "What is your current position?"
+  },
+  {
+    "line_num": 8,
+    "speaker": "witness",
+    "text": "I am a shift supervisor on the loading dock."
+  },
+  {
+    "line_num": 9,
+    "speaker": "attorney",
+    "text": "As shift supervisor, what are your general responsibilities?"
+  },
+  {
+    "line_num": 10,
+    "speaker": "witness",
+    "text": "I oversee the loading crew, assign tasks, and make sure safety procedures are followed on the floor."
+  },
+  {
+    "line_num": 11,
+    "speaker": "attorney",
+    "text": "Directing your attention to the morning of June the fourteenth, were you working that day?"
+  },
+  {
+    "line_num": 12,
+    "speaker": "witness",
+    "text": "Yes, I was. I arrived at the facility around six-thirty that morning."
+  },
+  {
+    "line_num": 13,
+    "speaker": "attorney",
+    "text": "And where were you positioned when your shift began?"
+  },
+  {
+    "line_num": 14,
+    "speaker": "witness",
+    "text": "I was near dock door number four, reviewing the morning delivery schedule."
+  },
+  {
+    "line_num": 15,
+    "speaker": "attorney",
+    "text": "At some point that morning, did you observe the defendant, Mr. Alan Whitfield, enter the facility?"
+  },
+  {
+    "line_num": 16,
+    "speaker": "witness",
+    "text": "I did. He came through the east entrance around seven-fifteen."
+  },
+  {
+    "line_num": 17,
+    "speaker": "attorney",
+    "text": "What, if anything, did you observe him doing at that time?"
+  },
+  {
+    "line_num": 18,
+    "speaker": "witness",
+    "text": "He was operating a forklift near bay six, moving pallets toward the storage racks."
+  },
+  {
+    "line_num": 19,
+    "speaker": "attorney",
+    "text": "Was that forklift assigned to Mr. Whitfield that morning?"
+  },
+  {
+    "line_num": 20,
+    "speaker": "witness",
+    "text": "No, it was not. His assigned equipment was a separate pallet jack, not the forklift."
+  },
+  {
+    "line_num": 21,
+    "speaker": "attorney",
+    "text": "Did you say anything to him regarding the forklift?"
+  },
+  {
+    "line_num": 22,
+    "speaker": "witness",
+    "text": "I did. I called out to him and reminded him that the forklift was assigned to another employee."
+  },
+  {
+    "line_num": 23,
+    "speaker": "attorney",
+    "text": "How did he respond?"
+  },
+  {
+    "line_num": 24,
+    "speaker": "witness",
+    "text": "He acknowledged me, but he continued operating the forklift for several more minutes."
+  },
+  {
+    "line_num": 25,
+    "speaker": "attorney",
+    "text": "Approximately how many minutes passed before the incident occurred?"
+  },
+  {
+    "line_num": 26,
+    "speaker": "witness",
+    "text": "I would estimate about ten minutes."
+  },
+  {
+    "line_num": 27,
+    "speaker": "attorney",
+    "text": "Please describe, in your own words, what happened next."
+  },
+  {
+    "line_num": 28,
+    "speaker": "witness",
+    "text": "Mr. Whitfield was turning the forklift near the end of the rack when the load shifted and several boxes fell from the top shelf."
+  },
+  {
+    "line_num": 29,
+    "speaker": "attorney",
+    "text": "Where were you standing at that moment?"
+  },
+  {
+    "line_num": 30,
+    "speaker": "witness",
+    "text": "I was approximately fifteen feet away, near the scanning station."
+  },
+  {
+    "line_num": 31,
+    "speaker": "attorney",
+    "text": "Did the falling boxes strike anyone?"
+  },
+  {
+    "line_num": 32,
+    "speaker": "witness",
+    "text": "Yes. They struck another employee, Mr. Daniel Reyes, who was walking past the rack at the time."
+  },
+  {
+    "line_num": 33,
+    "speaker": "attorney",
+    "text": "What did you do immediately after witnessing this?"
+  },
+  {
+    "line_num": 34,
+    "speaker": "witness",
+    "text": "I called for medical assistance over the radio and went to check on Mr. Reyes."
+  },
+  {
+    "line_num": 35,
+    "speaker": "attorney",
+    "text": "What was Mr. Reyes's condition when you reached him?"
+  },
+  {
+    "line_num": 36,
+    "speaker": "witness",
+    "text": "He was conscious, but he was holding his shoulder and appeared to be in significant pain."
+  },
+  {
+    "line_num": 37,
+    "speaker": "attorney",
+    "text": "Did you speak with Mr. Whitfield after the incident?"
+  },
+  {
+    "line_num": 38,
+    "speaker": "witness",
+    "text": "I did, once the paramedics had arrived."
+  },
+  {
+    "line_num": 39,
+    "speaker": "attorney",
+    "text": "What did he say to you, if anything?"
+  },
+  {
+    "line_num": 40,
+    "speaker": "witness",
+    "text": "He stated that he had not seen Mr. Reyes walking near the rack."
+  },
+  {
+    "line_num": 41,
+    "speaker": "attorney",
+    "text": "Did he say anything about why he was using the forklift instead of his assigned equipment?"
+  },
+  {
+    "line_num": 42,
+    "speaker": "witness",
+    "text": "He said the pallet jack was slower, and he was trying to catch up on his workload."
+  },
+  {
+    "line_num": 43,
+    "speaker": "attorney",
+    "text": "Prior to this incident, had you ever seen Mr. Whitfield operate equipment that was not assigned to him?"
+  },
+  {
+    "line_num": 44,
+    "speaker": "witness",
+    "text": "Yes, on two prior occasions, though nothing had happened as a result before."
+  },
+  {
+    "line_num": 45,
+    "speaker": "attorney",
+    "text": "Did you report those prior occasions to management?"
+  },
+  {
+    "line_num": 46,
+    "speaker": "witness",
+    "text": "I mentioned it informally to my supervisor, but I did not file a written report."
+  },
+  {
+    "line_num": 47,
+    "speaker": "attorney",
+    "text": "Is filing a written report the standard procedure for that kind of observation?"
+  },
+  {
+    "line_num": 48,
+    "speaker": "witness",
+    "text": "It is supposed to be, yes."
+  },
+  {
+    "line_num": 49,
+    "speaker": "attorney",
+    "text": "After this incident, was an incident report completed?"
+  },
+  {
+    "line_num": 50,
+    "speaker": "witness",
+    "text": "Yes, I completed one later that same day."
+  },
+  {
+    "line_num": 51,
+    "speaker": "attorney",
+    "text": "I am going to show you what has been marked as Exhibit Four. Do you recognize this document?"
+  },
+  {
+    "line_num": 52,
+    "speaker": "witness",
+    "text": "Yes, this is the incident report I filled out."
+  },
+  {
+    "line_num": 53,
+    "speaker": "attorney",
+    "text": "Is this an accurate copy of the report you submitted?"
+  },
+  {
+    "line_num": 54,
+    "speaker": "witness",
+    "text": "Yes, it is."
+  },
+  {
+    "line_num": 55,
+    "speaker": "attorney",
+    "text": "Thank you. Let's move to a few follow-up questions."
+  },
+  {
+    "line_num": 56,
+    "speaker": "attorney",
+    "text": "Ms. Torres, you testified that you called out to Mr. Whitfield about the forklift. How far away from him were you at that moment?"
+  },
+  {
+    "line_num": 57,
+    "speaker": "witness",
+    "text": "I was probably twenty feet away."
+  },
+  {
+    "line_num": 58,
+    "speaker": "attorney",
+    "text": "Is it possible he did not clearly hear your warning, given the noise level in the facility?"
+  },
+  {
+    "line_num": 59,
+    "speaker": "witness",
+    "text": "It is possible, though he did acknowledge me with a nod."
+  },
+  {
+    "line_num": 60,
+    "speaker": "attorney",
+    "text": "You mentioned two prior occasions where you observed similar conduct. Were either of those occasions reported in writing by anyone else?"
+  },
+  {
+    "line_num": 61,
+    "speaker": "witness",
+    "text": "Not that I am aware of."
+  },
+  {
+    "line_num": 62,
+    "speaker": "attorney",
+    "text": "So there is no written record of those prior occasions?"
+  },
+  {
+    "line_num": 63,
+    "speaker": "witness",
+    "text": "Correct, not that I know of."
+  },
+  {
+    "line_num": 64,
+    "speaker": "attorney",
+    "text": "That's all for cross. Let's go back on the record briefly."
+  },
+  {
+    "line_num": 65,
+    "speaker": "attorney",
+    "text": "Briefly, Your Honor. Ms. Torres, regardless of the noise level, did Mr. Whitfield make eye contact with you when you called out to him?"
+  },
+  {
+    "line_num": 66,
+    "speaker": "witness",
+    "text": "Yes, he did. He looked directly at me and nodded before continuing."
+  },
+  {
+    "line_num": 67,
+    "speaker": "attorney",
+    "text": "In your experience as a supervisor, does a nod in that context typically indicate that an instruction was understood?"
+  },
+  {
+    "line_num": 68,
+    "speaker": "witness",
+    "text": "In my experience, yes, it does."
+  },
+  {
+    "line_num": 69,
+    "speaker": "attorney",
+    "text": "Thank you. Nothing further."
+  },
+  {
+    "line_num": 70,
+    "speaker": "attorney",
+    "text": "Thank you, Ms. Torres. We're off the record."
+  }
+]

@@ -1,0 +1,17 @@
+# dictation_player/ has its own separate git repo (github.com/paolabenavides411/KATAVOZ) -- excluded here to avoid a nested-repo conflict
+dictation_player/
+
+# secrets -- never commit
+tts_project/.env.local
+**/.env.local
+
+# regenerable scratch/working output, not final content
+**/__pycache__/
+*.pyc
+src/audio/_tmp_assemble*/
+src/audio/output/
+tts_project/output/
+
+# session-local, not meaningful to track
+.claude/scheduled_tasks.lock
+.DS_Store
