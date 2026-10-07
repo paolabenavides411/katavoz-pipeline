@@ -226,6 +226,41 @@ NATIVE_ENOUGH_WPM = 140  # empirically-confirmed boundary, not derived from a
 # look similar to an already-approved voice. His floor is 0.70 (not the
 # usual 0.75) across the whole 60-120 bucket, and his 140wpm rate is an
 # explicit 0.906 override rather than the bucket's usual flat 1.0.
+#
+# neural2i and neural2h added 2026-10-07 -- the first non-Chirp3-HD voices
+# in this pool, picked specifically to cut real Google Cloud TTS billing
+# (Chirp3 HD runs $30/1M characters; Neural2 is $16/1M, confirmed by ear as
+# close enough in naturalness to be worth the switch going forward -- see
+# [[reusable-voice-pacing-knowledge]] for the full tier comparison). Native
+# pace measured the same way as every other voice here (aggregate across
+# several real lines, not a single short fragment -- single-fragment timing
+# proved unreliable, see the DEAD END note below).
+#
+# DEAD END, worth remembering: the first attempt at neural2i reused
+# Achird's exact rate table as a placeholder instead of measuring Neural2's
+# own native pace. That produced the EXACT "pause every 2 words" metronome
+# symptom this project spent real effort eliminating for Chirp3 HD --
+# traced to the wrong native_wpm assumption making 140/160wpm need far more
+# padding than intended, which a short/sparsely-punctuated test line then
+# couldn't absorb gracefully. Always measure a new voice's own native pace
+# from real aggregate data before building its table -- never borrow
+# another voice's numbers, not even as a quick placeholder.
+#
+# neural2i's native pace (182.9wpm) is fast enough that it holds up
+# uncapped (no 1.15 ceiling) all the way to a genuine, user-confirmed
+# 300wpm -- same headroom class as Achird. neural2h's native pace (169.2)
+# is slower: confirmed solid through 250wpm uncapped, but audibly rushed at
+# the rate true 300wpm would need (~1.77) -- so unlike every other voice in
+# this pool, neural2h's practical ceiling is 250wpm, not 300. If neural2h
+# is ever paired for a dictation that needs the full 250/275/300 bonus
+# range (meridian_freight-style), don't assume it can go past 250 the way
+# Achird/neural2i can. neural2h's 225wpm entry below (1.330) is also a
+# deliberate departure from this pool's usual 1.15 naturalness ceiling --
+# not itself individually by-ear tested, but safely bracketed by two
+# confirmed-good points on either side (200wpm at 1.182, 250wpm at 1.478)
+# well outside this table's normal range, the same kind of per-voice
+# deviation Charon's table already established as legitimate when real
+# testing calls for it.
 VOICE_PROFILES = {
     "achird": {
         "voice_id": "en-US-Chirp3-HD-Achird",
@@ -254,6 +289,21 @@ VOICE_PROFILES = {
         "rate_floor": 0.70,  # confirmed LOWER than the usual 0.75 -- see note above
         "rate_by_wpm": {60: 0.70, 80: 0.70, 100: 0.70, 120: 0.70,
                         140: 0.906, 160: 1.000, 180: 1.046, 200: 1.150, 225: 1.150},
+    },
+    "neural2i": {
+        "voice_id": "en-US-Neural2-I",
+        "native_wpm": 182.9,
+        "rate_floor": 0.75,  # same floor as Achird/Achernar/Aoede
+        "rate_by_wpm": {60: 0.75, 80: 0.75, 100: 0.75, 120: 0.75,
+                        140: 1.000, 160: 1.000, 180: 1.000, 200: 1.093, 225: 1.150},
+    },
+    "neural2h": {
+        "voice_id": "en-US-Neural2-H",
+        "native_wpm": 169.2,
+        "rate_floor": 0.75,  # same floor as Achird/Achernar/Aoede
+        "rate_by_wpm": {60: 0.75, 80: 0.75, 100: 0.75, 120: 0.75,
+                        140: 1.000, 160: 1.000, 180: 1.064, 200: 1.182, 225: 1.330},
+        # practical ceiling is 250wpm, NOT this pool's usual 300 -- see note above
     },
 }
 # 160wpm and 200wpm for Aoede/Charon, and Aoede's 140/160/180/225, were sent
